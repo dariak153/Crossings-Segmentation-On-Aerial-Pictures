@@ -12,3 +12,4 @@ The images were created with the [Deepness plugin](https://plugins.qgis.org/plug
 The images come from the following locations:
 - 
 - 349 - 449 - Plewiska and Komorniki,
+- 450 - 479 - Skórzewo,
