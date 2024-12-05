@@ -13,4 +13,5 @@ The images come from the following locations:
 - 
 - 349 - 449 - Plewiska and Komorniki,
 - 450 - 497 - Skórzewo,
-- 498 - 520 - Ławica i Junikowo,
+- 498 - 520 - Ławica and Junikowo,
+- 521 - 595 - Sołacz, Winiary, and South-Western Podolany 
