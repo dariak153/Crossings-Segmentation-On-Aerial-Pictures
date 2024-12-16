@@ -1,5 +1,15 @@
 # Dataset for crosswalk segmentation in QGIS
 
+## Dependencies for training
+
+The following dependencies are required to train the model:
+- install PyTorch (https://pytorch.org/get-started/locally/) - check the proper version for your system,
+- install requirements from `requirements.txt` file:
+```bash
+pip install -r requirements.txt
+```
+
+
 ## Data
 
 The data are aerial images from the [Poznan 2022 aerial orthophoto high resolution](https://qms.nextgis.com/geoservices/5693/) map available in QGIS.
