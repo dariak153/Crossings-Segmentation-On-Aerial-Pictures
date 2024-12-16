@@ -33,8 +33,5 @@ class MySegmentationModel(pl.LightningModule):
         return loss
 
     def configure_optimizers(self):
-
-        return torch.optim.Adam(self.parameters(), lr=1e-3)
-    def configure_optimizers(self):
-        optimizer = optim.Adam(self.parameters(), lr=1e-5)
+        optimizer = optim.Adam(self.parameters(), lr=5e-6)
         return optimizer
