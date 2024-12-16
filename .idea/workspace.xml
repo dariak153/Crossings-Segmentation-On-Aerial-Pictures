@@ -5,12 +5,29 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ceb4c3e-a73f-4547-a760-e3beb2c7d634" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/cli/convert.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cli/train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataloder/crossingsDataModule.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dataset/crossingsDataset.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lightningmodule/segmentationModule.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/utils/diceScore.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataset_segmentation_crosswalk.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataset_segmentation_crosswalk.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataloder/Crossings_DataLoder.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/Unet.py" beforeDir="false" afterPath="$PROJECT_DIR$/models/Unet.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -26,13 +43,24 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.convert.executor&quot;: &quot;Run&quot;,
+    &quot;Python.crossingsDataModule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.crossingsDataset.executor&quot;: &quot;Run&quot;,
     &quot;Python.qgis_data_to_one_folder.executor&quot;: &quot;Run&quot;,
+    &quot;Python.segmentationModule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/mateusz/Repositories/ZNIMPRA_MPC&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/utils" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="qgis_data_to_one_folder" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="dataset_segmentation_crosswalk" />
@@ -47,7 +75,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/qgis_data_to_one_folder.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/qgis_data_to_one_folder.py" />
       <option name="PARAMETERS" value="G:\crossing-segmentation-QGIS-data" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -65,7 +93,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-python-sdk-fb887030ada0-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.21565.199" />
+        <option value="bundled-python-sdk-1b1018131e27-aa17d162503b-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-243.22562.180" />
       </set>
     </attachedChunks>
   </component>
