@@ -5,7 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ceb4c3e-a73f-4547-a760-e3beb2c7d634" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cli/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/cli/train.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dataloder/crossingsDataModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloder/crossingsDataModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lightningmodule/segmentationModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/lightningmodule/segmentationModule.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -105,7 +108,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/lightningmodule/segmentationModule.py</url>
-          <line>30</line>
+          <line>42</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">

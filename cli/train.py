@@ -16,7 +16,7 @@ if __name__ == '__main__':
         monitor='val_loss',
         mode='min',  # Use 'min' to minimize the validation loss
         verbose=True,
-        save_top_k=1,  # Save only the best model
+        save_top_k=3,  # Save only the best model
         filename='../../../../saved_models/best_model'  # Name of the saved model file <- that's stupid
     )
     early_stopping_callback = pl.callbacks.EarlyStopping(
