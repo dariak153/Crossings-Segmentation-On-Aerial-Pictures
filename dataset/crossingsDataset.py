@@ -6,6 +6,7 @@ from torch.utils.data import Dataset
 from torchvision import transforms
 import matplotlib.pyplot as plt
 import albumentations as A
+
 COLOR_MAP = {
     (0, 0, 0): 0, #backgroudn
     (255, 0, 0): 1,  # Class 1
@@ -62,5 +63,12 @@ class SegmentationDataset(Dataset):
 
         mask_copy = torch.from_numpy(mask_class).long()
         image_copy = image_copy.permute(0, 1, 2).float()
-        return image_copy, mask_copy
+
+        num_classes = len(COLOR_MAP)
+        mask_one_hot = np.eye(num_classes)[mask_class]
+        debug = mask_one_hot[:,:,0]
+        # Convert to tensor
+        mask_one_hot = torch.from_numpy(mask_one_hot).permute(2, 0, 1).float()
+
+        return image_copy, mask_one_hot
 

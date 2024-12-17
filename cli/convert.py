@@ -1,4 +1,5 @@
 import torch
+import torch.nn as nn
 import torch.onnx
 from lightningmodule import segmentationModule
 
@@ -7,6 +8,10 @@ ckpt_path = '../saved_models/best_model.ckpt'
 
 # Load the model
 model = segmentationModule.MySegmentationModel.load_from_checkpoint(ckpt_path)
+softmax_model = nn.Sequential(
+    model,
+    nn.Softmax(1)
+)
 model.eval()  # Set the model to evaluation mode
 
 # Dummy input for the ONNX export (change the size to match your input)

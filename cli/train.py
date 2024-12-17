@@ -22,7 +22,7 @@ if __name__ == '__main__':
     early_stopping_callback = pl.callbacks.EarlyStopping(
         monitor='val_loss',
         mode='min',
-        patience=10,  # Number of epochs with no improvement after which training will be stopped
+        patience=25,  # Number of epochs with no improvement after which training will be stopped
         verbose=True
     )
 
