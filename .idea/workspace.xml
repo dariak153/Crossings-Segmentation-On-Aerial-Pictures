@@ -5,13 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ceb4c3e-a73f-4547-a760-e3beb2c7d634" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/cli/sample_test.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/convert.py" beforeDir="false" afterPath="$PROJECT_DIR$/cli/convert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cli/train.py" beforeDir="false" afterPath="$PROJECT_DIR$/cli/train.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataloder/crossingsDataModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataloder/crossingsDataModule.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dataset/crossingsDataset.py" beforeDir="false" afterPath="$PROJECT_DIR$/dataset/crossingsDataset.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lightningmodule/segmentationModule.py" beforeDir="false" afterPath="$PROJECT_DIR$/lightningmodule/segmentationModule.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,23 +31,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Python.Unet.executor": "Run",
-    "Python.convert.executor": "Run",
-    "Python.crossingsDataModule.executor": "Run",
-    "Python.crossingsDataset.executor": "Run",
-    "Python.qgis_data_to_one_folder.executor": "Run",
-    "Python.sample_test.executor": "Run",
-    "Python.segmentationModule.executor": "Run",
-    "Python.train.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "last_opened_file_path": "/home/mateusz/Repositories/ZNIMPRA_MPC",
-    "settings.editor.selected.configurable": "com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Python.Unet.executor&quot;: &quot;Run&quot;,
+    &quot;Python.convert.executor&quot;: &quot;Run&quot;,
+    &quot;Python.crossingsDataModule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.crossingsDataset.executor&quot;: &quot;Run&quot;,
+    &quot;Python.qgis_data_to_one_folder.executor&quot;: &quot;Run&quot;,
+    &quot;Python.sample_test.executor&quot;: &quot;Run&quot;,
+    &quot;Python.segmentationModule.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/mateusz/Repositories/ZNIMPRA_MPC&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/utils" />

@@ -1,3 +1,6 @@
 lightning
 numpy
-
+torch
+monai
+segmentation-models-pytorch
+torchvision
