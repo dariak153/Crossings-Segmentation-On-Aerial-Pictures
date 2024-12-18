@@ -1,0 +1,4 @@
+# label:color_rgb:parts:actions
+background:0,0,0::
+bike_crosswalk:0,0,255::
+pedestarian:255,0,0::
