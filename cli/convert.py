@@ -7,7 +7,7 @@ from lightningmodule import segmentationModule
 ckpt_path = '../saved_models/best_model.ckpt'
 
 # Load the model
-model = segmentationModule.MySegmentationModel.load_from_checkpoint(ckpt_path)
+model = segmentationModule.SegmentationLightningModule.load_from_checkpoint(ckpt_path)
 softmax_model = nn.Sequential(
     model,
     nn.Softmax(1)

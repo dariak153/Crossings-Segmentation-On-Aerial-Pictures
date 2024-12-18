@@ -8,7 +8,7 @@ from torchvision import transforms
 from lightningmodule import segmentationModule
 
 def load_model(checkpoint_path):
-    model = segmentationModule.MySegmentationModel()
+    model = segmentationModule.SegmentationLightningModule()
     model.load_state_dict(torch.load(checkpoint_path)["state_dict"])
     model.eval()
     return model

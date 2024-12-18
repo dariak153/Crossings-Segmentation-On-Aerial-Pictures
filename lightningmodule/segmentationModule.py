@@ -3,52 +3,56 @@ import torch
 import lightning.pytorch as pl
 import torch.optim as optim
 from monai import losses
-#import segmentation_models_pytorch as smp
+#import segmentation_models_ptorch as smp
+from monai.metrics import DiceMetric
 from models import Unet
 import matplotlib.pyplot as plt
 from utils import diceScore
 import torchmetrics
-class MySegmentationModel(pl.LightningModule):
-    def __init__(self):
+from models import Resnet
+
+class SegmentationLightningModule(pl.LightningModule):
+    def __init__(self, num_classes=3, lr=1e-5, input_channels=3):
         super().__init__()
-        weights = torch.tensor([0.02, 0.49, 0.49])  # Example weights for the classes
-        #self.loss_function = diceScore.WeightedMulticlassDiceLoss(num_classes=3, weights=weights)
-        self.loss_function = losses.DiceCELoss(include_background=False,softmax=True,to_onehot_y=False)
-        #self.loss_function = nn.CrossEntropyLoss()
-        self.network = Unet.SegmentationModel()
-        self.loss_function.requires_grad = True
-        metrics = torchmetrics.MetricCollection(
-            torchmetrics.Accuracy(task='multiclass', num_classes=3),
-            #torchmetrics.Precision(task='multiclass',num_classes=3),
-            #torchmetrics.Recall(task='multiclass',num_classes=3),s
-            torchmetrics.F1Score(task='multiclass',num_classes=3)
-        )
-        self.train_metrics = metrics.clone(prefix='train_')
-        self.val_metrics = metrics.clone(prefix='val_')
-        self.test_metrics = metrics.clone(prefix='test_')
+        weights = torch.tensor([0.02, 0.49, 1.25])
+        self.save_hyperparameters()
+        self.model = Unet.SegmentationModel()
+        #self.model = Resnet.SegmentationModel2(num_classes=num_classes, input_channels=input_channels)
+        self.loss_fn = losses.DiceCELoss(to_onehot_y=True, softmax=True, include_background=True,weight=weights)
+        self.dice_metric = DiceMetric(include_background=True, reduction="mean")
     def forward(self, x):
-        return self.network(x)
+        return self.model(x)
 
     def training_step(self, batch, batch_idx):
         images, masks = batch
-        outputs = self(images)
-
-        loss = self.loss_function(outputs,masks)
-        self.train_metrics.update(outputs,masks)
-        self.log('train_loss', loss, prog_bar=True)
-        self.log_dict(self.train_metrics,  on_step=True, on_epoch=True)
+        logits = self(images)
+        loss = self.loss_fn(logits, masks.unsqueeze(1))
+        self.dice_metric(logits, masks.unsqueeze(1))
+        dice = self.dice_metric.aggregate().item()
+        self.dice_metric.reset()
+        self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=True, logger=False)
+        self.log("train_dice", dice, on_step=True, on_epoch=True, prog_bar=True, logger=False)
         return loss
 
     def validation_step(self, batch, batch_idx):
         images, masks = batch
-        outputs = self(images)
-        loss = self.loss_function(outputs,masks)
-        self.val_metrics.update(outputs, masks)
-        self.log('val_loss', loss, prog_bar=True)
-        self.log_dict(self.val_metrics, on_step=True, on_epoch=True, prog_bar=True)
-
+        logits = self(images)
+        loss = self.loss_fn(logits, masks.unsqueeze(1))
+        self.dice_metric(logits, masks.unsqueeze(1))
+        dice = self.dice_metric.aggregate().item()
+        self.dice_metric.reset()
+        self.log("val_loss", loss, on_step=False, on_epoch=True, prog_bar=True, logger=False)
+        self.log("val_dice", dice, on_step=False, on_epoch=True, prog_bar=True, logger=False)
         return loss
 
     def configure_optimizers(self):
-        # Tym razem użyjmy optimizera Adam - uczenie powinno być szybsze
-        return torch.optim.Adam(self.parameters(), lr=1e-4)
+        optimizer = optim.AdamW(self.parameters(), lr=0.00005)
+        scheduler = optim.lr_scheduler.ReduceLROnPlateau(optimizer, mode="min", patience=5, factor=0.5)
+        return {
+            'optimizer': optimizer,
+            'lr_scheduler': {
+                'scheduler': scheduler,
+                'monitor': 'val_loss',
+                'frequency': 1
+            }
+        }
