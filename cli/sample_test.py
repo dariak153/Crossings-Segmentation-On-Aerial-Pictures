@@ -3,6 +3,8 @@ from PIL import Image
 import numpy as np
 import matplotlib.pyplot as plt
 from torchvision import transforms
+import os
+import random
 
 # Import your Lightning model class
 from lightningmodule import segmentationModule
@@ -22,23 +24,31 @@ def preprocess_image(image_path, transform=None):
     image = image.unsqueeze(0)  # Add batch dimension
     return image
 
+def visualize_predictions(images, masks, predicted_masks):
+    fig, ax = plt.subplots(5, 3, figsize=(8, 8))  # Create a 5x3 grid
 
-def visualize_prediction(image, mask, predicted_mask):
-    fig, ax = plt.subplots(1, 3, figsize=(15, 5))
+    for i in range(5):
+        ax[i, 0].imshow(images[i].permute(1, 2, 0))  # Convert to HWC for display
+        ax[i, 0].set_title(f'Input Image {i+1}')
+        ax[i, 0].axis('off')
 
-    ax[0].imshow(image.permute(1, 2, 0))  # Convert to HWC for display
-    ax[0].set_title('Input Image')
+        ax[i, 1].imshow(masks[i])
+        ax[i, 1].set_title(f'Ground Truth Mask {i+1}')
+        ax[i, 1].axis('off')
 
-    ax[1].imshow(mask)
-    ax[1].set_title('Ground Truth Mask')
-
-    ax[2].imshow(predicted_mask)
-    ax[2].set_title('Predicted Mask')
-
+        ax[i, 2].imshow(predicted_masks[i])
+        ax[i, 2].set_title(f'Predicted Mask {i+1}')
+        ax[i, 2].axis('off')
+    plt.tight_layout()
     plt.show()
 
+def select_random_images(image_dir, num_images=5):
+    all_images = [f for f in os.listdir(image_dir) if os.path.isfile(os.path.join(image_dir, f))]
+    result = random.sample(all_images, num_images)
+    print(result)
+    return result
 
-def main(image_path, mask_path, checkpoint_path):
+def main(image_dir, mask_dir, checkpoint_path):
     # Load the model
     model = load_model(checkpoint_path)
 
@@ -47,27 +57,42 @@ def main(image_path, mask_path, checkpoint_path):
         transforms.Resize((512, 512)),  # Ensure the image size matches your training size
         transforms.ToTensor()
     ])
-    image = preprocess_image(image_path, transform)
 
-    # Preprocess the mask (for visualization purposes)
-    mask = Image.open(mask_path).convert('L')
-    mask = mask.resize((512, 512))
-    mask = np.array(mask)
+    # Select 5 random images
+    random_images = select_random_images(image_dir, 5)
 
-    # Make prediction
-    with torch.no_grad():
-        predicted_mask = model(image).squeeze(0) # Remove batch dimension
-        predicted_mask = torch.argmax(predicted_mask, dim=0).numpy() # Convert to numpy
+    images = []
+    masks = []
+    predicted_masks = []
 
-        print(predicted_mask)
-    # Visualize the prediction
-    visualize_prediction(image.squeeze(0), mask, predicted_mask)
+    for image_name in random_images:
+        image_path = os.path.join(image_dir, image_name)
+        mask_path = os.path.join(mask_dir, image_name)  # Assuming mask has the same name as image
+
+        # Preprocess the image
+        image = preprocess_image(image_path, transform)
+        images.append(image.squeeze(0))  # Remove batch dimension for visualization
+
+        # Preprocess the mask (for visualization purposes)
+        mask = Image.open(mask_path).convert('L')
+        mask = mask.resize((512, 512))
+        mask = np.array(mask)
+        masks.append(mask)
+
+        # Make prediction
+        with torch.no_grad():
+            predicted_mask = model(image).squeeze(0)  # Remove batch dimension
+            predicted_mask = torch.argmax(predicted_mask, dim=0).numpy()  # Convert to numpy
+            predicted_masks.append(predicted_mask)
+
+    # Visualize all predictions in one subplot
+    visualize_predictions(images, masks, predicted_masks)
 
 if __name__ == "__main__":
-    image_path = "../data/data/071.png"
-    mask_path = "../data/annotated data/all_in_one/071.png"  # If you have a corresponding mask for visualization
+    image_dir = "../data/data/"
+    mask_dir = "../data/annotated data/all_in_one/"  # Directory containing corresponding masks for visualization
     checkpoint_path = "../saved_models/best_model.ckpt"
     num_classes = 3  # Change this to your number of classes
     weights = torch.tensor([0.2, 0.3, 0.5])  # Change this to your class weights
 
-    main(image_path, mask_path, checkpoint_path)
+    main(image_dir, mask_dir, checkpoint_path)
