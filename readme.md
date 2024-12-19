@@ -25,3 +25,15 @@ The images come from the following locations:
 - 450 - 497 - Skórzewo,
 - 498 - 520 - Ławica and Junikowo,
 - 521 - 595 - Sołacz, Winiary, and South-Western Podolany 
+## Trening model
+```bash
+python model.py
+```
+## Visualization predictions 
+```bash
+python evaluate.py --checkpoint checkpoints/best-checkpoint.ckpt --images_dir data/data --masks_dir data/annotated_data/all_in_one --num_samples 5
+```
+## Visualization metrics
+```bash
+python visualize_metrics.py --csv_path logs/segmentation_model/version_0/metrics.csv --title_suffix "(Segmentacja wieloklasowa)"
+```
