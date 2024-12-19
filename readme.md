@@ -8,7 +8,8 @@ The following dependencies are required to train the model:
 ```bash
 pip install -r requirements.txt
 ```
-
+!!!!!!
+The folder for masks has been updated to annotated_data due to errors with loading data
 
 ## Data
 
@@ -28,6 +29,10 @@ The images come from the following locations:
 ## Trening model
 ```bash
 python model.py
+```
+## Weights to model
+```bash
+python imbalance_weights.py
 ```
 ## Visualization predictions 
 ```bash
