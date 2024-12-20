@@ -8,8 +8,7 @@ The following dependencies are required to train the model:
 ```bash
 pip install -r requirements.txt
 ```
-!!!!!!
-The folder for masks has been updated to annotated_data due to errors with loading data
+
 
 ## Data
 
@@ -28,17 +27,14 @@ The images come from the following locations:
 - 521 - 595 - Sołacz, Winiary, and South-Western Podolany 
 ## Trening model
 ```bash
-python model.py
+python scripts/run_training.py
 ```
-## Weights to model
+## Visualization predictions example
 ```bash
-python imbalance_weights.py
+python scripts/run_evaluation.py --checkpoint checkpoints/best-checkpoint.ckpt --images_dir data/data --masks_dir data/annotated_data/all_in_one --num_samples 5
+
 ```
-## Visualization predictions 
+## Visualization metrics example
 ```bash
-python evaluate.py --checkpoint checkpoints/best-checkpoint.ckpt --images_dir data/data --masks_dir data/annotated_data/all_in_one --num_samples 5
-```
-## Visualization metrics
-```bash
-python visualize_metrics.py --csv_path logs/segmentation_model/version_0/metrics.csv --title_suffix "(Segmentacja wieloklasowa)"
+python scripts/plot_metrics.py --csv_path logs/segmentation_model/version_2/metrics.csv
 ```
