@@ -27,7 +27,7 @@ def roboflow2cvat(input_dir, output_dir):
                 rgb_img[img == 1, 0] = 255
 
                 # Get file name before _mask.png
-                base_img_name = file.split('_mask.png')[0] + '.jpg'
+                base_img_name = file.split('_mask.png')[0] + '.png'
                 base_img = cv.imread(os.path.join(input_dir, d, base_img_name))
                 if base_img is None:
                     print(f"Nie znaleziono pliku {base_img_name}")
