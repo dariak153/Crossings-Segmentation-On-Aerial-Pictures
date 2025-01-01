@@ -2,3 +2,11 @@
 /saved_models/
 /.idea
 /data/grunwald_gorczyn_lazarz
+/segmentation/dataloaders/__pycache__
+/segmentation/datasets/__pycache__
+/segmentation/losses/__pycache__
+/segmentation/metrics/__pycache__
+/segmentation/models/__pycache__
+/segmentation/visualization/__pycache__
+/segmentation/__pycache__
+checkpoints/best-checkpoint.ckpt
