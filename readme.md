@@ -28,6 +28,18 @@ The images come from the following locations:
 ## Trening model
 ```bash
 python scripts/run_training.py
+python scripts/run_training.py --model custom_unet
+
+```
+## Trening model new with argparse (RUN THIS )
+```bash
+
+python scripts/run_training.py --model custom_unet
+
+```
+## Top model with argparse 
+```bash
+python scripts/run_training.py --model smp_unet
 ```
 ## Visualization predictions example
 ```bash
