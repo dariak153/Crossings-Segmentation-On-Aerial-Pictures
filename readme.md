@@ -36,5 +36,15 @@ python scripts/run_evaluation.py --checkpoint checkpoints/best-checkpoint.ckpt -
 ```
 ## Visualization metrics example
 ```bash
-python scripts/plot_metrics.py --csv_path logs/segmentation_model/version_2/metrics.csv
+python scripts/plot_metrics.py --csv_path logs/segmentation_model/version_4/metrics.csv
 ```
+## Visualization predictions results
+
+![Results](predict_result/Figure_1.png)
+![Results](predict_result/Figure_2.png)
+![Results](predict_result/Figure_5.png)
+![Results](predict_result/Figure_8.png)
+![Results](predict_result/Figure_9.png)
+
+## Visualization metrics results
+![Results](predict_result/Result_metrics.png)
