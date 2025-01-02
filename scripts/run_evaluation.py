@@ -1,37 +1,17 @@
+# scripts/run_evaluation.py
 
 import sys
 import os
 import argparse
 import torch
 
+# Upewnij się, że ścieżka do modułów jest poprawna
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 from segmentation.dataloaders.segmentation_dataloader import SegmentationDataModule
 from segmentation.models.lightning_module import SegmentationLightningModule
 from segmentation.models.unet import CustomSegmentationModel
 from segmentation.visualization.visualize import visualize_predictions
-
-
-def transform_state_dict(state_dict):
-    new_state_dict = {}
-    for k, v in state_dict.items():
-        if k.startswith('model.encoder.layer'):
-            # Zamiana 'model.encoder.layer1.0.conv1.weight' na 'model.encoder1.conv.0.weight'
-            parts = k.split('.')
-            if len(parts) >= 5:
-                layer_num = parts[2]  # 'layer1'
-                block_num = parts[3]  # '0'
-                conv_part = parts[4]  # 'conv1.weight'
-                conv_num = conv_part.replace('conv', '').split('.')[0]  # '1'
-                rest = '.'.join(conv_part.split('.')[1:])  # 'weight'
-                new_key = f"model.encoder{layer_num[-1]}.conv.{conv_num}.{rest}"
-                new_state_dict[new_key] = v
-            else:
-                new_state_dict[k] = v
-        else:
-            new_state_dict[k] = v
-    return new_state_dict
-
 
 def evaluate_model(model_type, checkpoint_path, images_dir, masks_dir, batch_size=8, num_workers=2, num_samples=5):
     # Inicjalizacja DataModule
@@ -65,15 +45,27 @@ def evaluate_model(model_type, checkpoint_path, images_dir, masks_dir, batch_siz
         # Sprawdzenie, czy checkpoint zawiera 'state_dict'
         state_dict = checkpoint['state_dict'] if 'state_dict' in checkpoint else checkpoint
 
-        # Przekształcenie kluczy, jeśli jest to konieczne
-        transformed_state_dict = transform_state_dict(state_dict)
+        # Jeśli checkpoint zawiera prefiks 'model.', usuń go
+        new_state_dict = {}
+        for key, value in state_dict.items():
+            if key.startswith('model.'):
+                new_key = key[len('model.'):]
+            else:
+                new_key = key
+            new_state_dict[new_key] = value
 
-        # Ładowanie state_dict z strict=False
-        missing_keys, unexpected_keys = model.load_state_dict(transformed_state_dict, strict=False)
-        if missing_keys:
-            print(f"Brakujące klucze: {missing_keys}")
-        if unexpected_keys:
-            print(f"Niespodziewane klucze: {unexpected_keys}")
+        # Ładowanie state_dict z strict=True
+        try:
+            model.load_state_dict(new_state_dict, strict=True)
+        except RuntimeError as e:
+            print("Błąd podczas ładowania checkpointa:", e)
+            print("Próbuję załadować model z strict=False")
+            missing_keys, unexpected_keys = model.load_state_dict(new_state_dict, strict=False)
+            if missing_keys:
+                print(f"Brakujące klucze: {missing_keys}")
+            if unexpected_keys:
+                print(f"Niespodziewane klucze: {unexpected_keys}")
+
     else:
         raise ValueError(f"Nieznany typ modelu: {model_type}")
 
@@ -97,7 +89,6 @@ def evaluate_model(model_type, checkpoint_path, images_dir, masks_dir, batch_siz
 
     # Wizualizacja wyników
     visualize_predictions(images, masks, preds, num_samples=num_samples)
-
 
 def main():
     parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -124,7 +115,5 @@ def main():
         num_samples=args.num_samples
     )
 
-
 if __name__ == "__main__":
     main()
-

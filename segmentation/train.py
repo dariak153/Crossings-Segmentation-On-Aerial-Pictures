@@ -51,7 +51,11 @@ def train_model(model_name='smp_unet'):
         raise ValueError(f"Nieznany model: {model_name}")
 
 
-    early_stopping = EarlyStopping(monitor="val_loss", mode="min", patience=trainer_cfg.early_stopping_patience)
+    early_stopping = EarlyStopping(
+        monitor="val_loss",
+        mode="min",
+        patience=trainer_cfg.early_stopping_patience
+    )
     checkpoint_callback = ModelCheckpoint(
         monitor='val_loss',
         dirpath='checkpoints/',
@@ -66,7 +70,7 @@ def train_model(model_name='smp_unet'):
         max_epochs=trainer_cfg.max_epochs,
         accelerator=trainer_cfg.accelerator,
         devices=trainer_cfg.devices,
-        precision=trainer_cfg.precision,
+        precision='16-mixed' if trainer_cfg.precision == 16 else 32,
         log_every_n_steps=trainer_cfg.log_every_n_steps,
         callbacks=[early_stopping, checkpoint_callback],
         logger=logger

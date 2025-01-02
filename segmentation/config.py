@@ -4,18 +4,19 @@ import os
 
 @dataclass
 class DataConfig:
-    parent_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    parent_dir: str = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
     images_dir: str = os.path.join(parent_dir, 'data', 'data')
-    masks_dir: str = os.path.join(parent_dir, 'data', 'annotated data', 'all_in_one')
+    masks_dir: str = os.path.join(parent_dir, 'data', 'annotated_data', 'all_in_one')
     batch_size: int = 8
-    num_workers: int = 2
+    num_workers: int = 1
     val_split: float = 0.2
     test_split: float = 0.1
 
-    if not os.path.exists(images_dir):
-        raise ValueError(f"Directory {images_dir} does not exist.")
-    if not os.path.exists(masks_dir):
-        raise ValueError(f"Directory {masks_dir} does not exist.")
+    def __post_init__(self):
+        if not os.path.exists(self.images_dir):
+            raise ValueError(f"Directory {self.images_dir} does not exist.")
+        if not os.path.exists(self.masks_dir):
+            raise ValueError(f"Directory {self.masks_dir} does not exist.")
 
 @dataclass
 class ModelConfig:
@@ -25,8 +26,9 @@ class ModelConfig:
 
 @dataclass
 class TrainerConfig:
-    max_epochs: int = 70
+    max_epochs: int = 50
     accelerator: str = 'gpu' if torch.cuda.is_available() else 'cpu'
     devices: int = 1
     precision: int = 16 if torch.cuda.is_available() else 32
-    log_every_n_steps: int = 10
+    log_every_n_steps: int = 1
+    early_stopping_patience: int = 10

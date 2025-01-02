@@ -1,3 +1,4 @@
+
 import os
 import numpy as np
 from PIL import Image
@@ -25,11 +26,11 @@ class SegmentationDataset(Dataset):
 
         self.images = sorted([
             f for f in os.listdir(images_dir)
-            if f.lower().endswith(('.png'))
+            if f.lower().endswith(('.png', '.jpg', '.jpeg'))
         ])
         mask_files = sorted([
             f for f in os.listdir(masks_dir)
-            if f.lower().endswith(('.png'))
+            if f.lower().endswith(('.png', '.jpg', '.jpeg'))
         ])
 
         self.image_mask_pairs = [
@@ -59,3 +60,4 @@ class SegmentationDataset(Dataset):
             mask_class = torch.from_numpy(mask_class).long()
 
         return image, mask_class
+
