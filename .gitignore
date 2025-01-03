@@ -10,3 +10,4 @@
 /segmentation/visualization/__pycache__
 /segmentation/__pycache__
 checkpoints/best-checkpoint.ckpt
+/logs/custom_unet_logs

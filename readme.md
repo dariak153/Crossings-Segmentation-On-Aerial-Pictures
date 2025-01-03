@@ -25,6 +25,9 @@ The images come from the following locations:
 - 450 - 497 - Skórzewo,
 - 498 - 520 - Ławica and Junikowo,
 - 521 - 595 - Sołacz, Winiary, and South-Western Podolany 
+- 596 - 795 - Grunwald, Górczyn, Łazarz (by @ [poszukać])
+- 796 - 842 - Sejny (North-Eastern Poland)
+
 ## Trening model
 ```bash
 python scripts/run_training.py
@@ -33,9 +36,7 @@ python scripts/run_training.py --model custom_unet
 ```
 ## Trening model new with argparse (RUN THIS )
 ```bash
-
 python scripts/run_training.py --model custom_unet
-
 ```
 ## Top model with argparse 
 ```bash
@@ -44,7 +45,6 @@ python scripts/run_training.py --model smp_unet
 ## Visualization predictions example
 ```bash
 python scripts/run_evaluation.py --checkpoint checkpoints/best-checkpoint.ckpt --images_dir data/data --masks_dir data/annotated_data/all_in_one --num_samples 5
-
 ```
 ## Visualization metrics example
 ```bash
