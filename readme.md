@@ -9,7 +9,6 @@ The following dependencies are required to train the model:
 pip install -r requirements.txt
 ```
 
-
 ## Data
 
 The data are aerial images from the [Poznan 2022 aerial orthophoto high resolution](https://qms.nextgis.com/geoservices/5693/) map available in QGIS.
@@ -24,20 +23,19 @@ The images come from the following locations:
 - 349 - 449 - Plewiska and Komorniki,
 - 450 - 497 - Skórzewo,
 - 498 - 520 - Ławica and Junikowo,
-- 521 - 595 - Sołacz, Winiary, and South-Western Podolany 
-- 596 - 795 - Grunwald, Górczyn, Łazarz (by @ [poszukać])
-- 796 - 842 - Sejny (North-Eastern Poland)
+- 521 - 595 - Sołacz, Winiary, and South-Western Podolany ,
+- 596 - 795 - Grunwald, Górczyn, Łazarz (from [https://universe.roboflow.com/zpo/pedestrian_bicycle_crossings](https://universe.roboflow.com/zpo/pedestrian_bicycle_crossings)),
+- 796 - 842 - Sejny (North-Eastern Poland) - from Geoportal Polska Orthophoto Poland,
+- 843 - 945 - Żegrze (from [https://universe.roboflow.com/obraz/obrazy](https://universe.roboflow.com/obraz/obrazy)),
+- 946 - 1057 - Wilda and Dębiec (from [https://universe.roboflow.com/obrazy-tisrw/obrazy-kublo](https://universe.roboflow.com/obrazy-tisrw/obrazy-kublo)).
 
 ## Trening model UNet (SMP)
 ```bash
 python scripts/run_training.py --model=smp_unet 
-
-
 ```
 ## UNet++ (EfficientNet-B0):
 ```bash
 python scripts/run_training.py --model=unet_effb0 
-
 ```
 ## UNet++ (ResNet-34)
 
@@ -47,14 +45,10 @@ python scripts/run_training.py --model=unet_resnet34
 ## UNet++ (MobileNetV2)
 ```bash
 python scripts/run_training.py --model=unet_mobilenetv2 
-
-
 ```
 ## DeepLabV3 (ResNet-34):
 ```bash
 python scripts/run_training.py --model=deeplabv3_resnet34 
-
-
 ```
 ## Evaluation model 
 ```bash

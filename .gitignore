@@ -11,3 +11,5 @@
 /segmentation/__pycache__
 checkpoints/best-checkpoint.ckpt
 /logs/custom_unet_logs
+/data/wilda_debiec
+/data/zegrze
