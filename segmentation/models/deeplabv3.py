@@ -5,34 +5,24 @@ import lightning.pytorch as pl
 import segmentation_models_pytorch as smp
 from torchmetrics import Dice, JaccardIndex
 
-class CustomSegmentationModel(pl.LightningModule):
+class CustomDeepLabV3Model(pl.LightningModule):
     def __init__(
         self,
         num_classes=3,
         lr=1e-4,
         pretrained=True,
         backbone="resnet34",
-        use_unetpp=True
     ):
         super().__init__()
         self.save_hyperparameters()
 
-        if use_unetpp:
-            self.model = smp.UnetPlusPlus(
-                encoder_name=backbone,
-                encoder_weights="imagenet" if pretrained else None,
-                in_channels=3,
-                classes=num_classes,
-                activation=None
-            )
-        else:
-            self.model = smp.Unet(
-                encoder_name=backbone,
-                encoder_weights="imagenet" if pretrained else None,
-                in_channels=3,
-                classes=num_classes,
-                activation=None
-            )
+        self.model = smp.DeepLabV3(
+            encoder_name=backbone,
+            encoder_weights="imagenet" if pretrained else None,
+            in_channels=3,
+            classes=num_classes,
+            activation=None
+        )
 
         self.loss_fn = nn.CrossEntropyLoss()
         self.dice_metric = Dice(num_classes=num_classes, average='macro')
@@ -44,14 +34,14 @@ class CustomSegmentationModel(pl.LightningModule):
         return self.model(x)
 
     def training_step(self, batch, batch_idx):
-        images, masks, _ = batch
+        images, masks = batch
         logits = self(images)
         loss = self.loss_fn(logits, masks)
         self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
-        images, masks, _ = batch
+        images, masks = batch
         logits = self(images)
         loss = self.loss_fn(logits, masks)
 
@@ -64,7 +54,7 @@ class CustomSegmentationModel(pl.LightningModule):
         self.log("val_iou", iou, on_epoch=True, prog_bar=True)
 
     def test_step(self, batch, batch_idx):
-        images, masks, _ = batch
+        images, masks = batch
         logits = self(images)
         loss = self.loss_fn(logits, masks)
 
@@ -88,4 +78,3 @@ class CustomSegmentationModel(pl.LightningModule):
                 "monitor": "val_loss"
             }
         }
-

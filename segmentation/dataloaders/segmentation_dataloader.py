@@ -1,3 +1,4 @@
+
 import os
 from torch.utils.data import DataLoader, random_split
 import albumentations as A
@@ -37,11 +38,13 @@ class SegmentationDataModule(pl.LightningDataModule):
                 ToTensorV2(),
             ])
 
+
         full_dataset = SegmentationDataset(
             images_dir=self.images_dir,
             masks_dir=self.masks_dir,
             transform=self.transform
         )
+
         total_size = len(full_dataset)
         test_size = int(self.test_split * total_size)
         val_size = int(self.val_split * total_size)
