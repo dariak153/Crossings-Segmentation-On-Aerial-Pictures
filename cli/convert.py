@@ -1,34 +1,42 @@
 import torch
 import torch.nn as nn
 import torch.onnx
-from lightningmodule import segmentationModule
+#from lightningmodule import segmentationModule
+from segmentation.models import CustomSegmentationModel
 
-# Path to the saved checkpoint file
-ckpt_path = '../saved_models/best_model.ckpt'
+def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1, 3, 512, 512)):
+    """
+    Converts a PyTorch checkpoint to an ONNX model.
 
-# Load the model
-model = segmentationModule.SegmentationLightningModule.load_from_checkpoint(ckpt_path)
-softmax_model = nn.Sequential(
-    model,
-    nn.Softmax(1)
-)
-model.eval()  # Set the model to evaluation mode
+    Args:
+        checkpoint_path (str): Path to the checkpoint file.
+        onnx_output_path (str): Path to save the ONNX model.
+        input_size (tuple): Size of the dummy input (batch_size, channels, height, width).
+    """
+    # Load the model from the checkpoint
+    model = CustomSegmentationModel.load_from_checkpoint(checkpoint_path)
 
-# Dummy input for the ONNX export (change the size to match your input)
-dummy_input = torch.randn(1, 3, 512, 512, device='cuda')  # Adjust the dimensions as necessary
+    # Set the model to evaluation mode
+    model.eval()
 
-# Path to save the ONNX model
-onnx_path = '../saved_models/best_model.onnx'
+    # Create a dummy input with the specified size
+    dummy_input = torch.randn(*input_size, device='cuda')
 
-# Export the model to ONNX
-torch.onnx.export(
-    model,                  # Model being run
-    dummy_input,            # Model input (or a tuple for multiple inputs)
-    onnx_path,              # Where to save the model
-    export_params=True,     # Store the trained parameter weights inside the model file
-    opset_version=11,       # ONNX version to export to
-    do_constant_folding=True,  # Whether to execute constant folding for optimization
-    input_names=['input'],  # Input name for the graph
-    output_names=['output']  # Output name for the graph
-)
-print(f"Model has been converted to ONNX and saved at {onnx_path}")
+    # Export the model to ONNX format
+    torch.onnx.export(
+        model,  # Model to export
+        dummy_input,  # Dummy input for the model
+        onnx_output_path,  # Output path for the ONNX file
+        export_params=True,  # Store the learned parameters within the model
+        opset_version=11,  # Target ONNX version
+        do_constant_folding=True,  # Perform constant folding optimization
+        input_names=['input'],  # Name of the input tensor
+        output_names=['output']  # Name of the output tensor
+    )
+    print(f"Model has been converted to ONNX and saved at {onnx_output_path}")
+
+
+# Example usage
+checkpoint_path = '../checkpoints/run_20250104-200252/best-checkpoint.ckpt'
+onnx_output_path = '../checkpoints/run_20250104-200252/best_model.onnx'
+convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path)
