@@ -28,28 +28,39 @@ The images come from the following locations:
 - 596 - 795 - Grunwald, Górczyn, Łazarz (by @ [poszukać])
 - 796 - 842 - Sejny (North-Eastern Poland)
 
-## Trening model
+## Trening model UNet (SMP)
 ```bash
-python scripts/run_training.py
-python scripts/run_training.py --model custom_unet
+python scripts/run_training.py --model=smp_unet 
+
 
 ```
-## Trening model new with argparse (RUN THIS )
+## UNet++ (EfficientNet-B0):
 ```bash
-python scripts/run_training.py --model custom_unet
+python scripts/run_training.py --model=unet_effb0 
+
 ```
-## Top model with argparse 
+## UNet++ (ResNet-34)
+
 ```bash
-python scripts/run_training.py --model smp_unet
+python scripts/run_training.py --model=unet_resnet34
 ```
-## Visualization predictions example
+## UNet++ (MobileNetV2)
 ```bash
-python scripts/run_evaluation.py --checkpoint checkpoints/best-checkpoint.ckpt --images_dir data/data --masks_dir data/annotated_data/all_in_one --num_samples 5
+python scripts/run_training.py --model=unet_mobilenetv2 
+
+
 ```
-## Visualization metrics example
+## DeepLabV3 (ResNet-34):
 ```bash
-python scripts/plot_metrics.py --csv_path logs/segmentation_model/version_4/metrics.csv
+python scripts/run_training.py --model=deeplabv3_resnet34 
+
+
 ```
+## Evaluation model 
+```bash
+python scripts/run_evaluation.py --model=unet_effb0 --checkpoint=checkpoints/<checkpoint_folder>/best-checkpoint.ckpt --format=ckpt --num_samples=5
+```
+
 ## Visualization predictions results
 
 ![Results](predict_result/Figure_1.png)
