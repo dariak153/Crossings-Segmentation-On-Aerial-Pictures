@@ -119,6 +119,14 @@ def train_model(model_name='smp_unet'):
             model_type='deeplabv3plus',
             backbone='resnet34'
         )
+    elif model_name == 'segformer_resnet50':
+        model = SegmentationLightningModule(
+            num_classes=model_cfg.num_classes,
+            lr=model_cfg.learning_rate,
+            pretrained=model_cfg.pretrained,
+            model_type='segformer',
+            backbone='resnet50'
+        )
     else:
         raise ValueError(f"Nieznany model: {model_name}")
 

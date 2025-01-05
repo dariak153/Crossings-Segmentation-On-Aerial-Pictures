@@ -50,6 +50,15 @@ class SegmentationLightningModule(pl.LightningModule):
                 classes=num_classes,
                 activation=None
             )
+        elif model_type == 'segformer':
+            self.model = smp.Segformer(
+                encoder_name=backbone,
+                encoder_weights="imagenet" if pretrained else None,
+                in_channels=3,
+                classes=num_classes,
+                activation=None
+            )
+
         else:
             raise ValueError(f"Nieznany model_type: {model_type}")
 
