@@ -8,6 +8,10 @@ The following dependencies are required to train the model:
 ```bash
 pip install -r requirements.txt
 ```
+- to use the Segformer model, upgrade the library with:
+```bash
+pip install --upgrade git+https://github.com/qubvel/segmentation_models.pytorch
+```
 
 ## Data
 
