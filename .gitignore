@@ -14,3 +14,6 @@ checkpoints/best-checkpoint.ckpt
 /data/wilda_debiec
 /data/zegrze
 /data/winogrady_szelag
+/segmentation.egg-info
+/logs
+/checkpoints

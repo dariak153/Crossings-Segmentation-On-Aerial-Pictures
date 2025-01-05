@@ -1,8 +1,12 @@
 import torch
 import torch.nn as nn
 import torch.onnx
+from monai.networks.nets import resnet34
+
 #from lightningmodule import segmentationModule
 from segmentation.models import CustomSegmentationModel
+from segmentation.models.lightning_module import SegmentationLightningModule
+from segmentation.config import ModelConfig
 
 def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1, 3, 512, 512)):
     """
@@ -14,7 +18,15 @@ def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1,
         input_size (tuple): Size of the dummy input (batch_size, channels, height, width).
     """
     # Load the model from the checkpoint
-    model = CustomSegmentationModel.load_from_checkpoint(checkpoint_path)
+    # model = CustomSegmentationModel.load_from_checkpoint(checkpoint_path)
+    model = SegmentationLightningModule.load_from_checkpoint(
+        checkpoint_path,
+        num_classes=3,
+        lr=1e-4,
+        pretrained=True,
+        backbone= 'resnet34',
+        model_type='unet++'
+    )
 
     # Set the model to evaluation mode
     model.eval()
@@ -37,6 +49,6 @@ def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1,
 
 
 # Example usage
-checkpoint_path = '../checkpoints/run_20250104-200252/best-checkpoint.ckpt'
-onnx_output_path = '../checkpoints/run_20250104-200252/best_model.onnx'
+checkpoint_path = '../checkpoints/run_20250105-165551/best-checkpoint.ckpt'
+onnx_output_path = '../checkpoints/run_20250105-165551/best_model.onnx'
 convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path)

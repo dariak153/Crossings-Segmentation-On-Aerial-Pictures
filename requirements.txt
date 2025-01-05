@@ -4,3 +4,4 @@ torch
 monai
 segmentation-models-pytorch
 torchvision
+onnx
