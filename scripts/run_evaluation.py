@@ -1,7 +1,7 @@
-
 import torch
 import os
 import argparse
+import sys
 
 import numpy as np
 import albumentations as A
@@ -9,54 +9,53 @@ from albumentations.pytorch import ToTensorV2
 
 from segmentation.visualization.visualize import visualize_predictions
 from segmentation.dataloaders.segmentation_dataloader import SegmentationDataModule
-from segmentation.models.lightning_module import SegmentationLightningModule
-from segmentation.models.unet import CustomSegmentationModel
-from segmentation.models.deeplabv3 import CustomDeepLabV3Model
 from segmentation.config import DataConfig, ModelConfig, TrainerConfig
+from segmentation.models.lightning_module import SegmentationLightningModule
 
 def evaluate_ckpt(model_type, checkpoint_path, images, device, num_classes=3):
     if model_type.startswith('unetplusplus'):
         model_type_main = 'unet++'
         backbone = model_type.split('_')[-1]
-        model = CustomSegmentationModel.load_from_checkpoint(
+        model = SegmentationLightningModule.load_from_checkpoint(
             checkpoint_path,
             num_classes=num_classes,
             lr=1e-4,
             pretrained=True,
             backbone=backbone,
-            use_unetpp=True
+            model_type='unet++'
         )
     elif model_type.startswith('unet'):
         model_type_main = 'unet'
         backbone = model_type.split('_')[-1]
-        model = CustomSegmentationModel.load_from_checkpoint(
+        model = SegmentationLightningModule.load_from_checkpoint(
             checkpoint_path,
             num_classes=num_classes,
             lr=1e-4,
             pretrained=True,
             backbone=backbone,
-            use_unetpp=False
+            model_type='unet'
         )
     elif model_type.startswith('deeplabv3plus'):
         model_type_main = 'deeplabv3plus'
         backbone = model_type.split('_')[-1]
-        model = CustomDeepLabV3Model.load_from_checkpoint(
-            checkpoint_path,
-            num_classes=num_classes,
-            lr=1e-4,
-            pretrained=True,
-            backbone=backbone
-        )
-    elif model_type.startswith('fpn'):
-        model_type_main = 'fpn'
-        backbone = model_type.split('_')[-1]
-        model = CustomSegmentationModel.load_from_checkpoint(
+        model = SegmentationLightningModule.load_from_checkpoint(
             checkpoint_path,
             num_classes=num_classes,
             lr=1e-4,
             pretrained=True,
             backbone=backbone,
-            use_unetpp=False
+            model_type='deeplabv3plus'
+        )
+    elif model_type.startswith('fpn'):
+        model_type_main = 'fpn'
+        backbone = model_type.split('_')[-1]
+        model = SegmentationLightningModule.load_from_checkpoint(
+            checkpoint_path,
+            num_classes=num_classes,
+            lr=1e-4,
+            pretrained=True,
+            backbone=backbone,
+            model_type='fpn'
         )
     else:
         raise ValueError(f"Nieznany model_type z nazwy modelu: {model_type}")
@@ -79,7 +78,7 @@ def evaluate_torchscript(ts_path, images, device):
     return preds
 
 def main():
-    parser = argparse.ArgumentParser(description="Ewaluuj modele segmentacji")
+    parser = argparse.ArgumentParser()
     parser.add_argument('--model', type=str,
                         choices=[
                             'smp_unet',
@@ -107,12 +106,11 @@ def main():
     parser.add_argument('--images_dir', type=str, default=None, help='Katalog z obrazami')
     parser.add_argument('--masks_dir', type=str, default=None, help='Katalog z maskami')
     parser.add_argument('--batch_size', type=int, default=None)
-    parser.add_argument('--num_workers', type=int, default=None)
+    parser.add_argument('--num_workers', type=int, default=1)
     parser.add_argument('--num_samples', type=int, default=5)
 
     args = parser.parse_args()
 
-    # Inicjalizacja konfiguracji
     data_cfg = DataConfig()
     model_cfg = ModelConfig()
     trainer_cfg = TrainerConfig()
@@ -174,3 +172,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

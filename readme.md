@@ -59,6 +59,8 @@ python scripts/run_training.py --model deeplabv3_resnet34
 ```bash
 python scripts/run_evaluation.py --model unet_effb0 --checkpoint checkpoints/<checkpoint_folder>/best-checkpoint.ckpt --format ckpt --num_samples 5
 ```
+Example
+python scripts/run_evaluation.py --model deeplabv3plus_resnet34 --checkpoint checkpoints/run_20250105-144034/best-checkpoint.ckpt --format ckpt --num_samples 10  --batch_size 4
 
 ## Visualization predictions results
 

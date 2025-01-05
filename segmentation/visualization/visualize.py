@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import torch
 
-def visualize_predictions(images, masks, preds, indices, num_samples=5):
+def visualize_predictions(images, masks, preds, indices, num_samples=10):
     NUM_CLASSES = 3
 
     color_map = {
