@@ -24,8 +24,8 @@ def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1,
         num_classes=3,
         lr=1e-4,
         pretrained=True,
-        backbone= 'resnet34',
-        model_type='unet++'
+        backbone= 'resnet50',
+        model_type='segformer'
     )
 
     # Set the model to evaluation mode
@@ -40,7 +40,7 @@ def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1,
         dummy_input,  # Dummy input for the model
         onnx_output_path,  # Output path for the ONNX file
         export_params=True,  # Store the learned parameters within the model
-        opset_version=11,  # Target ONNX version
+        opset_version=15,  # Target ONNX version
         do_constant_folding=True,  # Perform constant folding optimization
         input_names=['input'],  # Name of the input tensor
         output_names=['output']  # Name of the output tensor
@@ -49,6 +49,6 @@ def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1,
 
 
 # Example usage
-checkpoint_path = '../checkpoints/run_20250105-165551/best-checkpoint.ckpt'
-onnx_output_path = '../checkpoints/run_20250105-165551/best_model.onnx'
+checkpoint_path = '../checkpoints/run_20250105-232420/best-checkpoint.ckpt'
+onnx_output_path = '../checkpoints/run_20250105-232420/segformer_resnet50_dfl.onnx'
 convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path)

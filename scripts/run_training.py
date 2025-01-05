@@ -16,6 +16,7 @@ def main():
                             'unetplusplus_mobilenetv2',
                             'deeplabv3_resnet34',
                             'segformer_resnet50',
+                            'segformer_tu-semnasnet_100'
                         ],
                         default='smp_unet',
                         help='Wybierz model do trenowania')

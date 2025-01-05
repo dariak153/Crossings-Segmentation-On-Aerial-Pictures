@@ -4,7 +4,7 @@ import torch.optim as optim
 import lightning.pytorch as pl
 import segmentation_models_pytorch as smp
 from torchmetrics import Dice, JaccardIndex
-from segmentation.losses import CombinedLoss
+from segmentation.losses import CombinedLoss, DiceFocalLoss
 from segmentation.config import ModelConfig
 
 class SegmentationLightningModule(pl.LightningModule):
@@ -62,7 +62,8 @@ class SegmentationLightningModule(pl.LightningModule):
         else:
             raise ValueError(f"Nieznany model_type: {model_type}")
 
-        self.loss_fn = CombinedLoss(weight_ce=None, weight_dice=1.0, classes=num_classes)
+        #self.loss_fn = CombinedLoss(weight_ce=None, weight_dice=1.0, classes=num_classes)
+        self.loss_fn = DiceFocalLoss.MonaiDiceFocalLoss(class_weights=[1.0, 1.0, 1.0])
         self.dice_metric = Dice(num_classes=num_classes, average='macro')
         self.jaccard_metric = JaccardIndex(task='multiclass', num_classes=num_classes, average='macro')
 
