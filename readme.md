@@ -19,15 +19,18 @@ The images were created with the [Deepness plugin](https://plugins.qgis.org/plug
 - `Tile overlap [%]`: 10
 
 The images come from the following locations:
-- 
+- 0 - 348 - PUT Campus and surrounding areas,
 - 349 - 449 - Plewiska and Komorniki,
 - 450 - 497 - Skórzewo,
 - 498 - 520 - Ławica and Junikowo,
 - 521 - 595 - Sołacz, Winiary, and South-Western Podolany ,
-- 596 - 795 - Grunwald, Górczyn, Łazarz (from [https://universe.roboflow.com/zpo/pedestrian_bicycle_crossings](https://universe.roboflow.com/zpo/pedestrian_bicycle_crossings)),
+- 596 - 795 - Grunwald, Górczyn, Łazarz (from [https://universe.roboflow.com/zpo/pedestrian_bicycle_crossings](https://universe.roboflow.com/zpo/pedestrian_bicycle_crossings))*,
 - 796 - 842 - Sejny (North-Eastern Poland) - from Geoportal Polska Orthophoto Poland,
-- 843 - 945 - Żegrze (from [https://universe.roboflow.com/obraz/obrazy](https://universe.roboflow.com/obraz/obrazy)),
-- 946 - 1057 - Wilda and Dębiec (from [https://universe.roboflow.com/obrazy-tisrw/obrazy-kublo](https://universe.roboflow.com/obrazy-tisrw/obrazy-kublo)).
+- 843 - 945 - Żegrze (from [https://universe.roboflow.com/obraz/obrazy](https://universe.roboflow.com/obraz/obrazy))*,
+- 946 - 1057 - Wilda and Dębiec (from [https://universe.roboflow.com/obrazy-tisrw/obrazy-kublo](https://universe.roboflow.com/obrazy-tisrw/obrazy-kublo))*,
+- 1058 - 1385 - Winogrady and Szeląg (from [https://universe.roboflow.com/zpo/pedestrian_bicycle_crossings](https://universe.roboflow.com/zpo/pedestrian_bicycle_crossings))*.
+
+\* Images from the Roboflow platform were adjust to be in the same format as the images from CVAT. Additionally, they were checked for mistakes in the annotations, and if necessary, they were corrected.
 
 ## Trening model UNet (SMP)
 ```bash
