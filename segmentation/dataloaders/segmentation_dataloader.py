@@ -1,30 +1,22 @@
+# segmentation/dataloaders/segmentation_dataloader.py
 
-import os
 from torch.utils.data import DataLoader, random_split
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 import lightning.pytorch as pl
 from segmentation.datasets.segmentation_dataset import SegmentationDataset
+from segmentation.config import DataConfig
 
 class SegmentationDataModule(pl.LightningDataModule):
-    def __init__(
-        self,
-        images_dir,
-        masks_dir,
-        transform=None,
-        batch_size=16,
-        num_workers=4,
-        val_split=0.2,
-        test_split=0.1
-    ):
+    def __init__(self, config: DataConfig, transform=None):
         super().__init__()
-        self.images_dir = images_dir
-        self.masks_dir = masks_dir
+        self.images_dir = config.images_dir
+        self.masks_dir = config.masks_dir
         self.transform = transform
-        self.batch_size = batch_size
-        self.num_workers = num_workers
-        self.val_split = val_split
-        self.test_split = test_split
+        self.batch_size = config.batch_size
+        self.num_workers = config.num_workers
+        self.val_split = config.val_split
+        self.test_split = config.test_split
 
     def setup(self, stage=None):
         if self.transform is None:
@@ -37,7 +29,6 @@ class SegmentationDataModule(pl.LightningDataModule):
                 A.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
                 ToTensorV2(),
             ])
-
 
         full_dataset = SegmentationDataset(
             images_dir=self.images_dir,
@@ -60,7 +51,7 @@ class SegmentationDataModule(pl.LightningDataModule):
             batch_size=self.batch_size,
             shuffle=True,
             num_workers=self.num_workers,
-            persistent_workers=True,
+            persistent_workers=True if self.num_workers > 0 else False,
             pin_memory=True
         )
 
@@ -70,7 +61,7 @@ class SegmentationDataModule(pl.LightningDataModule):
             batch_size=self.batch_size,
             shuffle=False,
             num_workers=self.num_workers,
-            persistent_workers=True,
+            persistent_workers=True if self.num_workers > 0 else False,
             pin_memory=True
         )
 
@@ -80,6 +71,6 @@ class SegmentationDataModule(pl.LightningDataModule):
             batch_size=self.batch_size,
             shuffle=False,
             num_workers=self.num_workers,
-            persistent_workers=True,
+            persistent_workers=True if self.num_workers > 0 else False,
             pin_memory=True
         )

@@ -32,30 +32,32 @@ The images come from the following locations:
 
 \* Images from the Roboflow platform were adjust to be in the same format as the images from CVAT. Additionally, they were checked for mistakes in the annotations, and if necessary, they were corrected.
 
-## Trening model UNet (SMP)
+Installing package 
 ```bash
-python scripts/run_training.py --model=smp_unet 
+pip install -e .
 ```
+
 ## UNet++ (EfficientNet-B0):
 ```bash
-python scripts/run_training.py --model=unet_effb0 
+python scripts/run_training.py --model unet_effb0
+
 ```
 ## UNet++ (ResNet-34)
 
 ```bash
-python scripts/run_training.py --model=unet_resnet34
+python scripts/run_training.py --model unet_resnet34
 ```
 ## UNet++ (MobileNetV2)
 ```bash
-python scripts/run_training.py --model=unet_mobilenetv2 
+python scripts/run_training.py --model unet_mobilenetv2 
 ```
 ## DeepLabV3 (ResNet-34):
 ```bash
-python scripts/run_training.py --model=deeplabv3_resnet34 
+python scripts/run_training.py --model deeplabv3_resnet34 
 ```
 ## Evaluation model 
 ```bash
-python scripts/run_evaluation.py --model=unet_effb0 --checkpoint=checkpoints/<checkpoint_folder>/best-checkpoint.ckpt --format=ckpt --num_samples=5
+python scripts/run_evaluation.py --model unet_effb0 --checkpoint checkpoints/<checkpoint_folder>/best-checkpoint.ckpt --format ckpt --num_samples 5
 ```
 
 ## Visualization predictions results

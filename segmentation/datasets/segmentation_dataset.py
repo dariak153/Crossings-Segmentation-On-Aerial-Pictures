@@ -5,9 +5,9 @@ import torch
 from torch.utils.data import Dataset
 
 COLOR_MAP = {
-    (0, 0, 0): 0,      # Tło
-    (255, 0, 0): 1,    # Przejście dla pieszych
-    (0, 0, 255): 2     # Przejazd dla rowerów
+    (0, 0, 0): 0,
+    (255, 0, 0): 1,
+    (0, 0, 255): 2
 }
 NUM_CLASSES = len(COLOR_MAP)
 
@@ -24,13 +24,12 @@ class SegmentationDataset(Dataset):
         self.transform = transform
         self.images = sorted([
             f for f in os.listdir(images_dir)
-            if f.lower().endswith(('.png', '.jpg', '.jpeg'))
+            if f.lower().endswith('.png')
         ])
         mask_files = sorted([
             f for f in os.listdir(masks_dir)
-            if f.lower().endswith(('.png', '.jpg', '.jpeg'))
+            if f.lower().endswith('.png')
         ])
-
 
         self.image_mask_pairs = [
             (img, img) for img in self.images if img in mask_files
@@ -45,8 +44,6 @@ class SegmentationDataset(Dataset):
         img_name, mask_name = self.image_mask_pairs[idx]
         img_path = os.path.join(self.images_dir, img_name)
         mask_path = os.path.join(self.masks_dir, mask_name)
-
-
         image = np.array(Image.open(img_path).convert('RGB'))
         mask = np.array(Image.open(mask_path).convert('RGB'))
 

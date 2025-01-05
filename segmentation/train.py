@@ -1,18 +1,16 @@
 import torch
-import numpy as np
+import os
+import time
+import segmentation_models_pytorch as smp
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
 import lightning.pytorch as pl
-import os
-import time
 from lightning.pytorch.callbacks import EarlyStopping, ModelCheckpoint
 from lightning.pytorch.loggers import CSVLogger
 
 from segmentation.config import DataConfig, ModelConfig, TrainerConfig
 from segmentation.dataloaders.segmentation_dataloader import SegmentationDataModule
 from segmentation.models.lightning_module import SegmentationLightningModule
-from segmentation.models.unet import CustomSegmentationModel
-from segmentation.models.deeplabv3 import CustomDeepLabV3Model
 
 def get_unique_run_dir(base_dir="checkpoints"):
     run_dir = f"run_{time.strftime('%Y%m%d-%H%M%S')}"
@@ -26,7 +24,7 @@ def export_to_torchscript(model, save_path="model_traced.pt"):
     dummy_input = torch.randn(1, 3, 512, 512)
     traced_model = torch.jit.trace(model.model, dummy_input)
     traced_model.save(save_path)
-    print(f"Model zapisany do: {save_path}")
+    print(f"Model zapisany w: {save_path}")
 
 def train_model(model_name='smp_unet'):
     data_cfg = DataConfig()
@@ -44,13 +42,8 @@ def train_model(model_name='smp_unet'):
     ])
 
     datamodule = SegmentationDataModule(
-        images_dir=data_cfg.images_dir,
-        masks_dir=data_cfg.masks_dir,
-        transform=transform,
-        batch_size=data_cfg.batch_size,
-        num_workers=data_cfg.num_workers,
-        val_split=data_cfg.val_split,
-        test_split=data_cfg.test_split
+        config=data_cfg,
+        transform=transform
     )
     datamodule.setup()
 
@@ -58,46 +51,73 @@ def train_model(model_name='smp_unet'):
         model = SegmentationLightningModule(
             num_classes=model_cfg.num_classes,
             lr=model_cfg.learning_rate,
-            pretrained=model_cfg.pretrained
+            pretrained=model_cfg.pretrained,
+            model_type='unet',
+            backbone='resnet34'
+        )
+    elif model_name == 'deeplabv3plus_resnet34':
+        model = SegmentationLightningModule(
+            num_classes=model_cfg.num_classes,
+            lr=model_cfg.learning_rate,
+            pretrained=model_cfg.pretrained,
+            model_type='deeplabv3plus',
+            backbone='resnet34'
+        )
+    elif model_name == 'fpn_resnet34':
+        model = SegmentationLightningModule(
+            num_classes=model_cfg.num_classes,
+            lr=model_cfg.learning_rate,
+            pretrained=model_cfg.pretrained,
+            model_type='fpn',
+            backbone='resnet34'
+        )
+    elif model_name == 'unetplusplus_resnet34':
+        model = SegmentationLightningModule(
+            num_classes=model_cfg.num_classes,
+            lr=model_cfg.learning_rate,
+            pretrained=model_cfg.pretrained,
+            model_type='unet++',
+            backbone='resnet34'
         )
     elif model_name == 'unet_resnet18':
-        model = CustomSegmentationModel(
+        model = SegmentationLightningModule(
             num_classes=model_cfg.num_classes,
             lr=model_cfg.learning_rate,
             pretrained=model_cfg.pretrained,
-            backbone="resnet18",
-            use_unetpp=True
-        )
-    elif model_name == 'unet_resnet34':
-        model = CustomSegmentationModel(
-            num_classes=model_cfg.num_classes,
-            lr=model_cfg.learning_rate,
-            pretrained=model_cfg.pretrained,
-            backbone="resnet34",
-            use_unetpp=True
+            model_type='unet',
+            backbone='resnet18'
         )
     elif model_name == 'unet_mobilenetv2':
-        model = CustomSegmentationModel(
+        model = SegmentationLightningModule(
             num_classes=model_cfg.num_classes,
             lr=model_cfg.learning_rate,
             pretrained=model_cfg.pretrained,
-            backbone="mobilenet_v2",
-            use_unetpp=True
+            model_type='unet',
+            backbone='mobilenet_v2'
         )
     elif model_name == 'unet_effb0':
-        model = CustomSegmentationModel(
+        model = SegmentationLightningModule(
             num_classes=model_cfg.num_classes,
             lr=model_cfg.learning_rate,
             pretrained=model_cfg.pretrained,
-            backbone="efficientnet-b0",
-            use_unetpp=True
+            model_type='unet',
+            backbone='efficientnet-b0'
+        )
+    elif model_name == 'unetplusplus_mobilenetv2':
+        model = SegmentationLightningModule(
+            num_classes=model_cfg.num_classes,
+            lr=model_cfg.learning_rate,
+            pretrained=model_cfg.pretrained,
+            model_type='unet++',
+            backbone='mobilenet_v2'
         )
     elif model_name == 'deeplabv3_resnet34':
-        model = CustomDeepLabV3Model(
+        model = SegmentationLightningModule(
             num_classes=model_cfg.num_classes,
             lr=model_cfg.learning_rate,
             pretrained=model_cfg.pretrained,
-            backbone="resnet34"
+            model_type='deeplabv3plus',
+            backbone='resnet34'
         )
     else:
         raise ValueError(f"Nieznany model: {model_name}")
@@ -134,5 +154,5 @@ def train_model(model_name='smp_unet'):
     ts_path = os.path.join(unique_dir, "model_traced.pt")
     export_to_torchscript(model, ts_path)
 
-    print(f"Checkpoint: {checkpoint_callback.best_model_path}")
-    print(f"TorchScript: {ts_path}")
+    print(f"Checkpoint zapisany w: {checkpoint_callback.best_model_path}")
+    print(f"Model TorchScript zapisany w: {ts_path}")

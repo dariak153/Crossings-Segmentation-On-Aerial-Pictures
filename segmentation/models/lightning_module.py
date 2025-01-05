@@ -1,11 +1,11 @@
-# segmentation/models/lightning_module.py
-
 import torch
 import torch.nn as nn
 import torch.optim as optim
 import lightning.pytorch as pl
 import segmentation_models_pytorch as smp
 from torchmetrics import Dice, JaccardIndex
+from segmentation.losses import CombinedLoss
+from segmentation.config import ModelConfig
 
 class SegmentationLightningModule(pl.LightningModule):
     def __init__(
@@ -18,7 +18,6 @@ class SegmentationLightningModule(pl.LightningModule):
     ):
         super().__init__()
         self.save_hyperparameters()
-
         if model_type == 'unet':
             self.model = smp.Unet(
                 encoder_name=backbone,
@@ -27,8 +26,24 @@ class SegmentationLightningModule(pl.LightningModule):
                 classes=num_classes,
                 activation=None
             )
-        elif model_type == 'deeplabv3':
-            self.model = smp.DeepLabV3(
+        elif model_type == 'deeplabv3plus':
+            self.model = smp.DeepLabV3Plus(
+                encoder_name=backbone,
+                encoder_weights="imagenet" if pretrained else None,
+                in_channels=3,
+                classes=num_classes,
+                activation=None
+            )
+        elif model_type == 'fpn':
+            self.model = smp.FPN(
+                encoder_name=backbone,
+                encoder_weights="imagenet" if pretrained else None,
+                in_channels=3,
+                classes=num_classes,
+                activation=None
+            )
+        elif model_type == 'unet++':
+            self.model = smp.UnetPlusPlus(
                 encoder_name=backbone,
                 encoder_weights="imagenet" if pretrained else None,
                 in_channels=3,
@@ -38,11 +53,7 @@ class SegmentationLightningModule(pl.LightningModule):
         else:
             raise ValueError(f"Nieznany model_type: {model_type}")
 
-        for name, module in self.model.named_modules():
-            if isinstance(module, smp.encoders.efficientnet.Activation):
-                setattr(self.model, name, nn.ReLU())
-
-        self.loss_fn = nn.CrossEntropyLoss()
+        self.loss_fn = CombinedLoss(weight_ce=None, weight_dice=1.0, classes=num_classes)
         self.dice_metric = Dice(num_classes=num_classes, average='macro')
         self.jaccard_metric = JaccardIndex(task='multiclass', num_classes=num_classes, average='macro')
 
@@ -52,14 +63,14 @@ class SegmentationLightningModule(pl.LightningModule):
         return self.model(x)
 
     def training_step(self, batch, batch_idx):
-        images, masks = batch
+        images, masks, _ = batch
         logits = self(images)
         loss = self.loss_fn(logits, masks)
         self.log("train_loss", loss, on_step=True, on_epoch=True, prog_bar=True)
         return loss
 
     def validation_step(self, batch, batch_idx):
-        images, masks = batch
+        images, masks, _ = batch
         logits = self(images)
         loss = self.loss_fn(logits, masks)
 
@@ -72,7 +83,7 @@ class SegmentationLightningModule(pl.LightningModule):
         self.log("val_iou", iou, on_epoch=True, prog_bar=True)
 
     def test_step(self, batch, batch_idx):
-        images, masks = batch
+        images, masks, idx = batch
         logits = self(images)
         loss = self.loss_fn(logits, masks)
 
