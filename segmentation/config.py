@@ -4,8 +4,8 @@ from dataclasses import dataclass
 class DataConfig:
     images_dir: str = "data/data"
     masks_dir: str = "data/annotated data/all_in_one"
-    batch_size: int = 4
-    num_workers: int = 1
+    batch_size: int = 16
+    num_workers: int = 4
     val_split: float = 0.1
     test_split: float = 0.1
 
@@ -17,7 +17,7 @@ class ModelConfig:
 
 @dataclass
 class TrainerConfig:
-    max_epochs: int = 50
+    max_epochs: int = 300
     accelerator: str = "gpu"
     devices: int = 1
     precision: int = 16

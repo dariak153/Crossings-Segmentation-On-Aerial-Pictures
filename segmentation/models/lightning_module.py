@@ -62,8 +62,9 @@ class SegmentationLightningModule(pl.LightningModule):
         else:
             raise ValueError(f"Nieznany model_type: {model_type}")
 
+        # Change the loss function here
         #self.loss_fn = CombinedLoss(weight_ce=None, weight_dice=1.0, classes=num_classes)
-        self.loss_fn = DiceFocalLoss.MonaiDiceFocalLoss(class_weights=[1.0, 1.0, 1.0])
+        self.loss_fn = DiceFocalLoss.MonaiDiceFocalLoss(class_weights=[0.004872, 0.204702, 0.790426])
         self.dice_metric = Dice(num_classes=num_classes, average='macro')
         self.jaccard_metric = JaccardIndex(task='multiclass', num_classes=num_classes, average='macro')
 
