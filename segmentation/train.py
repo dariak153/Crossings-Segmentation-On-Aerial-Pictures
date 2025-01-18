@@ -135,6 +135,14 @@ def train_model(model_name='smp_unet'):
             model_type='segformer',
             backbone='tu-semnasnet_100'
         )
+    elif model_name == "segformer_mit_b0":
+        model = SegmentationLightningModule(
+            num_classes=model_cfg.num_classes,
+            lr=model_cfg.learning_rate,
+            pretrained=model_cfg.pretrained,
+            model_type='segformer',
+            backbone='mit_b0'
+        )
     else:
         raise ValueError(f"Nieznany model: {model_name}")
 

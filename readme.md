@@ -1,4 +1,4 @@
-# Dataset for crosswalk segmentation in QGIS
+# Model for pedestrian and bicycle crossings segmentation in QGIS
 
 ## Dependencies for training
 

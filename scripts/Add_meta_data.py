@@ -1,7 +1,8 @@
 import json
 import onnx
 
-model = onnx.load('/home/mateusz/Downloads/model.onnx')
+model_path = '../checkpoints/run_20250118-141251/segformer_resnet50_dfl.onnx'
+model = onnx.load(model_path)
 
 class_names = {
     0: 'background',
@@ -26,4 +27,6 @@ m5 = model.metadata_props.add()
 m5.key = 'standardization_std'
 m5.value = json.dumps([0.229, 0.224, 0.225])
 
-onnx.save(model, '/home/mateusz/Downloads/segformer_resnet_50_metadated.onnx')
+# Get the path without onnx extension and add '_w_metadata.onnx'
+model_path_to_save = model_path[:-5] + '_w_metadata.onnx'
+onnx.save(model, model_path_to_save)

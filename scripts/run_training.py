@@ -1,5 +1,7 @@
 
 import argparse
+
+import torch.cuda
 from segmentation.train import train_model
 
 def main():
@@ -16,7 +18,8 @@ def main():
                             'unetplusplus_mobilenetv2',
                             'deeplabv3_resnet34',
                             'segformer_resnet50',
-                            'segformer_tu-semnasnet_100'
+                            'segformer_tu-semnasnet_100',
+                            'segformer_mit_b0',
                         ],
                         default='smp_unet',
                         help='Wybierz model do trenowania')
@@ -31,7 +34,7 @@ def main():
     if args.batch_size is not None:
         from segmentation.config import DataConfig
         DataConfig.batch_size = args.batch_size
-
+    torch.cuda.empty_cache()
     train_model(model_name=args.model)
 
 if __name__ == "__main__":

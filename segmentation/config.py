@@ -4,7 +4,7 @@ from dataclasses import dataclass
 class DataConfig:
     images_dir: str = "data/data"
     masks_dir: str = "data/annotated data/all_in_one"
-    batch_size: int = 16
+    batch_size: int = 8
     num_workers: int = 4
     val_split: float = 0.1
     test_split: float = 0.1

@@ -49,6 +49,6 @@ def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1,
 
 
 # Example usage
-checkpoint_path = '../checkpoints/run_20250106-185807/best-checkpoint.ckpt'
-onnx_output_path = '../checkpoints/run_20250106-185807/segformer_resnet50_dfl.onnx'
+checkpoint_path = '../checkpoints/run_20250118-141251/best-checkpoint.ckpt'
+onnx_output_path = '../checkpoints/run_20250118-141251/segformer_resnet50_dfl.onnx'
 convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path)
