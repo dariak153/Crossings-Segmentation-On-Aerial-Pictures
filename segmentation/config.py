@@ -22,4 +22,4 @@ class TrainerConfig:
     devices: int = 1
     precision: int = 16
     log_every_n_steps: int = 5
-    early_stopping_patience: int = 10
+    early_stopping_patience: int = 20

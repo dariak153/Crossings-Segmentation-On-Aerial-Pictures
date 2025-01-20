@@ -1,17 +1,10 @@
 # Model for pedestrian and bicycle crossings segmentation in QGIS
 
-## Dependencies for training
+![Results](media/res_7.jpg)
 
-The following dependencies are required to train the model:
-- install PyTorch (https://pytorch.org/get-started/locally/) - check the proper version for your system,
-- install requirements from `requirements.txt` file:
-```bash
-pip install -r requirements.txt
-```
-- to use the Segformer model, upgrade the library with:
-```bash
-pip install --upgrade git+https://github.com/qubvel/segmentation_models.pytorch
-```
+## Model
+
+The model is based on Segformer architecture with ResNet-50 backbone. The model was exported to onxx format and can be downloaded from the [onnx_model](onnx_model) folder.
 
 ## Data
 
@@ -36,30 +29,58 @@ The images come from the following locations:
 
 \* Images from the Roboflow platform were adjust to be in the same format as the images from CVAT. Additionally, they were checked for mistakes in the annotations, and if necessary, they were corrected.
 
+## Dependencies for training
+
+The following dependencies are required to train the model:
+- install PyTorch (https://pytorch.org/get-started/locally/) - check the proper version for your system,
+- install requirements from `requirements.txt` file:
+```bash
+pip install -r requirements.txt
+```
+- to use the Segformer model, upgrade the library with:
+```bash
+pip install --upgrade git+https://github.com/qubvel/segmentation_models.pytorch
+```
+
 Installing package 
 ```bash
 pip install -e .
 ```
 
-## UNet++ (EfficientNet-B0):
+## How to train the model
+
+The training script allows you to train models with different architectures and backbones. The available models are:
+
+### Segformer (ResNet-50):
+```bash
+python scripts/run_training.py --model segformer_resnet50 
+```
+
+### FPN (ResNet-34):
+```bash
+python scripts/run_training.py --model fpn_resnet34 
+```
+
+### UNet++ (EfficientNet-B0):
 ```bash
 python scripts/run_training.py --model unet_effb0
-
 ```
-## UNet++ (ResNet-34)
+### UNet++ (ResNet-34)
 
 ```bash
 python scripts/run_training.py --model unet_resnet34
 ```
-## UNet++ (MobileNetV2)
+### UNet++ (MobileNetV2)
 ```bash
 python scripts/run_training.py --model unet_mobilenetv2 
 ```
-## DeepLabV3 (ResNet-34):
+
+### DeepLabV3 (ResNet-34):
 ```bash
 python scripts/run_training.py --model deeplabv3_resnet34 
 ```
-## Evaluation model 
+
+## Model evaluation
 ```bash
 python scripts/run_evaluation.py --model unet_effb0 --checkpoint checkpoints/<checkpoint_folder>/best-checkpoint.ckpt --format ckpt --num_samples 5
 ```
@@ -68,13 +89,16 @@ Example
 python scripts/run_evaluation.py --model deeplabv3plus_resnet34 --checkpoint checkpoints/run_20250105-144034/best-checkpoint.ckpt --format ckpt --num_samples 10  --batch_size 4
 ```
 
-## Visualization predictions results
+## Training process and metrics on the test set
+![Training](media/segformer_resnet50_combined_loss_longer_training.png)
+![Metrics](media/metrics_segformer_resnet50_combined_loss_longer_training.jpg)
 
-![Results](predict_result/Figure_1.png)
-![Results](predict_result/Figure_2.png)
-![Results](predict_result/Figure_5.png)
-![Results](predict_result/Figure_8.png)
-![Results](predict_result/Figure_9.png)
+## Predicted results
 
-## Visualization metrics results
-![Results](predict_result/Result_metrics.png)
+![Results](media/res_1.jpg)
+![Results](media/res_2.jpg)
+![Results](media/res_3.jpg)
+![Results](media/res_4.jpg)
+![Results](media/res_5.jpg)
+![Results](media/res_6.jpg)
+
