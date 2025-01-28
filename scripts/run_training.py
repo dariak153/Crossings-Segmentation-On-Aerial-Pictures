@@ -23,9 +23,9 @@ def main():
                             'unet_resnet34'
                         ],
                         default='smp_unet',
-                        help='Wybierz model do trenowania')
-    parser.add_argument('--epochs', type=int, default=None, help="Liczba epok")
-    parser.add_argument('--batch_size', type=int, default=None, help="Rozmiar batcha")
+                        help='Modele do trenowania')
+    parser.add_argument('--epochs', type=int, default=None)
+    parser.add_argument('--batch_size', type=int, default=None)
 
     args = parser.parse_args()
 

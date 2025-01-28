@@ -50,6 +50,7 @@ class SegmentationLightningModule(pl.LightningModule):
                 classes=num_classes,
                 activation=None
             )
+        #the best model
         elif model_type == 'segformer':
             self.model = smp.Segformer(
                 encoder_name=backbone,

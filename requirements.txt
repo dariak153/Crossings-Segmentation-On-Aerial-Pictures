@@ -7,3 +7,5 @@ torchvision
 onnx
 monai
 pandas
+matplotlib
+albumentations

@@ -1,4 +1,3 @@
-# segmentation/dataloaders/segmentation_dataloader.py
 
 from torch.utils.data import DataLoader, random_split
 import albumentations as A

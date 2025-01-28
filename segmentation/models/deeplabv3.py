@@ -6,7 +6,7 @@ import segmentation_models_pytorch as smp
 from torchmetrics import Dice, JaccardIndex
 from segmentation.losses import CombinedLoss, DiceFocalLoss
 
-class CustomDeepLabV3Model(pl.LightningModule):
+class DeepLabV3Model(pl.LightningModule):
     def __init__(
         self,
         num_classes=3,

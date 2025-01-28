@@ -17,7 +17,7 @@ class ModelConfig:
 
 @dataclass
 class TrainerConfig:
-    max_epochs: int = 300
+    max_epochs: int = 70
     accelerator: str = "gpu"
     devices: int = 1
     precision: int = 16

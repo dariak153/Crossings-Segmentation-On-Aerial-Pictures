@@ -18,13 +18,13 @@ def get_unique_run_dir(base_dir="checkpoints"):
     os.makedirs(full_path, exist_ok=True)
     return full_path
 
-def export_to_torchscript(model, save_path="model_traced.pt"):
-    model.eval()
-    model.to('cpu')
-    dummy_input = torch.randn(1, 3, 512, 512)
-    traced_model = torch.jit.trace(model.model, dummy_input)
-    traced_model.save(save_path)
-    print(f"Model zapisany w: {save_path}")
+#def export_to_torchscript(model, save_path="model_segmentation.pt"):
+    #model.eval()
+    #model.to('cpu')
+    #dummy_input = torch.randn(1, 3, 512, 512)
+    #model_segmentation = torch.jit.trace(model.model, dummy_input)
+    #model_segmentation.save(save_path)
+    #print(f"Model zapisany w: {save_path}")
 
 def train_model(model_name='smp_unet'):
     data_cfg = DataConfig()
@@ -184,8 +184,8 @@ def train_model(model_name='smp_unet'):
     trainer.fit(model, datamodule)
     trainer.test(model, datamodule=datamodule)
 
-    ts_path = os.path.join(unique_dir, "model_traced.pt")
-    export_to_torchscript(model, ts_path)
+    #ts_path = os.path.join(unique_dir, "model_segmentation.pt")
+    #export_to_torchscript(model, ts_path)
 
     print(f"Checkpoint zapisany w: {checkpoint_callback.best_model_path}")
-    print(f"Model TorchScript zapisany w: {ts_path}")
+    #print(f"Model TorchScript zapisany w: {ts_path}")

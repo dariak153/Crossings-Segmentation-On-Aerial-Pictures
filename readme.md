@@ -49,6 +49,10 @@ The images come from the following locations:
 
 \* Images from the Roboflow platform were adjust to be in the same format as the images from CVAT. Additionally, they were checked for mistakes in the annotations, and if necessary, they were corrected.
 
+### Example of the data annotations
+![Data](media/120.png)
+![Data](media/230.png)
+![Data](media/290.jpg)
 ## Dependencies for training
 
 The following dependencies are required to train the model:

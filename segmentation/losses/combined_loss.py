@@ -18,7 +18,7 @@ class DiceLoss(nn.Module):
         return loss.mean()
 
 class CombinedLoss(nn.Module):
-    def __init__(self, weight_ce=None, weight_dice=1.0, classes=3):
+    def __init__(self, weight_ce=None, weight_dice=1.0, classes=3): #for experiments adjust weight_dice 1.2
         super(CombinedLoss, self).__init__()
         self.cross_entropy = nn.CrossEntropyLoss(weight=weight_ce)
         self.dice_loss = DiceLoss()

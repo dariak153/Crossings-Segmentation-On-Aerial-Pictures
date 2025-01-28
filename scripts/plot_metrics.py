@@ -60,8 +60,8 @@ def plot_metrics(csv_path, title_suffix=''):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Wizualizacja metryk")
-    parser.add_argument('--csv_path', type=str, required=True, help='Ścieżka do pliku CSV')
-    parser.add_argument('--title_suffix', type=str, default='', help='Tytuł wykresów')
+    parser.add_argument('--csv_path', type=str, required=True)
+    parser.add_argument('--title_suffix', type=str, default='')
     args = parser.parse_args()
 
     plot_metrics(csv_path=args.csv_path, title_suffix=args.title_suffix)

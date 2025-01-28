@@ -2,7 +2,6 @@ import torch
 import os
 import argparse
 import sys
-
 import numpy as np
 import albumentations as A
 from albumentations.pytorch import ToTensorV2
@@ -79,14 +78,14 @@ def evaluate_ckpt(model_type, checkpoint_path, images, device, num_classes=3):
         preds = torch.argmax(logits, dim=1)
     return preds
 
-def evaluate_torchscript(ts_path, images, device):
-    scripted_model = torch.jit.load(ts_path, map_location=device)
-    scripted_model.eval()
+#def evaluate_torchscript(ts_path, images, device):
+    #script_model = torch.jit.load(ts_path, map_location=device)
+    #script_model.eval()
 
-    with torch.no_grad():
-        preds = scripted_model(images)
-        preds = torch.argmax(preds, dim=1)
-    return preds
+    #with torch.no_grad():
+        #preds = script_model(images)
+        #preds = torch.argmax(preds, dim=1)
+    #return preds
 
 def main():
     parser = argparse.ArgumentParser()
@@ -113,7 +112,7 @@ def main():
     parser.add_argument('--format', type=str,
                         choices=['ckpt', 'torchscript'],
                         required=True,
-                        help='Format modelu do ewaluacji (ckpt lub torchscript)')
+                        help='Format modelu do ewaluacji (ckpt/torchscript)')
 
     parser.add_argument('--images_dir', type=str, default=None, help='Katalog z obrazami')
     parser.add_argument('--masks_dir', type=str, default=None, help='Katalog z maskami')
@@ -169,12 +168,12 @@ def main():
             device=device,
             num_classes=model_cfg.num_classes
         )
-    elif args.format == 'torchscript':
-        if not args.pt_path:
-            raise ValueError("Musisz podać --pt_path, gdy format=torchscript.")
-        preds = evaluate_torchscript(args.pt_path, images, device=device)
-    else:
-        raise ValueError("Nieznany format modelu.")
+    #elif args.format == 'torchscript':
+        #if not args.pt_path:
+            #raise ValueError("Musisz podać --pt_path, gdy format=torchscript.")
+        #preds = evaluate_torchscript(args.pt_path, images, device=device)
+    #else:
+        #raise ValueError("Nieznany format modelu.")
 
     preds = preds.cpu()
     images = images.cpu()

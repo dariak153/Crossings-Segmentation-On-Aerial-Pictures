@@ -1,8 +1,8 @@
 
 from .lightning_module import SegmentationLightningModule
-from .unet import CustomSegmentationModel
+from .unet import SegmentationModel
 
 __all__ = [
     'SegmentationLightningModule',
-    'CustomSegmentationModel',
+    'SegmentationModel',
 ]

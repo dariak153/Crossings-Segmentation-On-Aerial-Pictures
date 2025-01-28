@@ -5,7 +5,7 @@ import lightning.pytorch as pl
 import segmentation_models_pytorch as smp
 from torchmetrics import Dice, JaccardIndex
 
-class CustomSegmentationModel(pl.LightningModule):
+class   SegmentationModel(pl.LightningModule):
     def __init__(
         self,
         num_classes=3,
