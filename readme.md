@@ -156,6 +156,8 @@ python scripts/run_training.py --model unet_effb0
 python scripts/run_training.py --model unet_resnet34
 ```
 #### DeepLabV3 (ResNet-34):
+For training DeepLabV3, it is important to set the batch size different from 1 
+so the batch norm layers can work properly.
 ```bash
 python scripts/run_training.py --model deeplabv3plus_resnet34
 ```
