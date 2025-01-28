@@ -18,6 +18,10 @@ m2 = model.metadata_props.add()
 m2.key = 'class_names'
 m2.value = json.dumps(class_names)
 
+m3 = model.metadata_props.add()
+m3.key = 'resolution'
+m3.value = json.dumps(10)
+
 # optional, if you want to standardize input after normalisation
 m4 = model.metadata_props.add()
 m4.key = 'standardization_mean'

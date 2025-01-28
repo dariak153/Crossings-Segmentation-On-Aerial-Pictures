@@ -41,9 +41,10 @@ def convert_checkpoint_to_onnx(checkpoint_path, onnx_output_path, input_size=(1,
         onnx_output_path,  # Output path for the ONNX file
         export_params=True,  # Store the learned parameters within the model
         opset_version=15,  # Target ONNX version
-        do_constant_folding=True,  # Perform constant folding optimization
         input_names=['input'],  # Name of the input tensor
-        output_names=['output']  # Name of the output tensor
+        output_names=['output'],  # Name of the output tensor
+        dynamic_axes={'input': {0: 'batch_size'},  # variable lenght axes
+                      'output': {0: 'batch_size'}}
     )
     print(f"Model has been converted to ONNX and saved at {onnx_output_path}")
 

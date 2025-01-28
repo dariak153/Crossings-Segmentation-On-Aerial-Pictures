@@ -75,7 +75,7 @@ The training script allows you to train models with different architectures and 
 python scripts/run_training.py --model segformer_resnet50 
 ```
 
-## Model evaluation
+## How to evaluate model 
 ```bash
 python scripts/run_evaluation.py --model unet_effb0 --checkpoint checkpoints/<checkpoint_folder>/best-checkpoint.ckpt --format ckpt --num_samples 5
 ```
@@ -143,19 +143,31 @@ To train other models you can try the following commands
 ```bash
 python scripts/run_training.py --model fpn_resnet34 
 ```
-#### UNet (EfficientNet-B0):
+#### UNet++ (MobileNetV2)
+```bash
+python scripts/run_training.py --model unet_mobilenetv2 
+```
+#### UNet++ (EfficientNet-B0):
 ```bash
 python scripts/run_training.py --model unet_effb0
 ```
-#### UNet (ResNet-34)
+#### UNet++ (ResNet-34)
 ```bash
 python scripts/run_training.py --model unet_resnet34
 ```
-#### UNet (MobileNetV2)
+#### DeepLabV3 (ResNet-34):
 ```bash
-python scripts/run_training.py --model unet_mobilenetv2 
+python scripts/run_training.py --model deeplabv3plus_resnet34
 ```
 #### DeepLabV3 (ResNet-34):
 ```bash
 python scripts/run_training.py --model deeplabv3_resnet34 
+```
+### SegFormer (TU-SemNasNet-100):
+```bash
+python scripts/run_training.py --model segformer_tu-semnasnet_100
+```
+### SegFormer (MiT-B0):
+```bash
+python scripts/run_training.py --model segformer_mit_b0
 ```
