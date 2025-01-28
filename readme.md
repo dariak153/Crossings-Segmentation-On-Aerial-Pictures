@@ -52,7 +52,7 @@ The images come from the following locations:
 ### Example of the data annotations
 ![Data](media/120.png)
 ![Data](media/230.png)
-![Data](media/290.jpg)
+![Data](media/290.png)
 ## Dependencies for training
 
 The following dependencies are required to train the model:
