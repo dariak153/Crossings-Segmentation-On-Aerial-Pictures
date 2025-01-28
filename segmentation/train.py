@@ -87,6 +87,14 @@ def train_model(model_name='smp_unet'):
             model_type='unet',
             backbone='resnet18'
         )
+    elif model_name == "unet_resnet34":
+        model = SegmentationLightningModule(
+            num_classes=model_cfg.num_classes,
+            lr=model_cfg.learning_rate,
+            pretrained=model_cfg.pretrained,
+            model_type='unet',
+            backbone='resnet34'
+        )
     elif model_name == 'unet_mobilenetv2':
         model = SegmentationLightningModule(
             num_classes=model_cfg.num_classes,
@@ -143,6 +151,7 @@ def train_model(model_name='smp_unet'):
             model_type='segformer',
             backbone='mit_b0'
         )
+
     else:
         raise ValueError(f"Nieznany model: {model_name}")
 

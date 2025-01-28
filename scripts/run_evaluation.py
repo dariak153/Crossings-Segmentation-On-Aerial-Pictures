@@ -57,6 +57,17 @@ def evaluate_ckpt(model_type, checkpoint_path, images, device, num_classes=3):
             backbone=backbone,
             model_type='fpn'
         )
+    elif model_type.startswith('segformer'):
+        model_type_main = 'segformer'
+        backbone = model_type.split('_')[-1]
+        model = SegmentationLightningModule.load_from_checkpoint(
+            checkpoint_path,
+            num_classes=num_classes,
+            lr=1e-4,
+            pretrained=True,
+            backbone=backbone,
+            model_type='segformer'
+        )
     else:
         raise ValueError(f"Nieznany model_type z nazwy modelu: {model_type}")
 
@@ -89,7 +100,8 @@ def main():
                             'unet_mobilenetv2',
                             'unet_effb0',
                             'unetplusplus_mobilenetv2',
-                            'deeplabv3_resnet34'
+                            'deeplabv3_resnet34',
+                            'segformer_resnet50'
                         ],
                         required=True,
                         help='Wybierz model do ewaluacji: smp_unet, deeplabv3plus_resnet34, etc.'

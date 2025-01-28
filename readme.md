@@ -143,15 +143,15 @@ To train other models you can try the following commands
 ```bash
 python scripts/run_training.py --model fpn_resnet34 
 ```
-#### UNet++ (EfficientNet-B0):
+#### UNet (EfficientNet-B0):
 ```bash
 python scripts/run_training.py --model unet_effb0
 ```
-#### UNet++ (ResNet-34)
+#### UNet (ResNet-34)
 ```bash
 python scripts/run_training.py --model unet_resnet34
 ```
-#### UNet++ (MobileNetV2)
+#### UNet (MobileNetV2)
 ```bash
 python scripts/run_training.py --model unet_mobilenetv2 
 ```

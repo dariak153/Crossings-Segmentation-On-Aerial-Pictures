@@ -20,6 +20,7 @@ def main():
                             'segformer_resnet50',
                             'segformer_tu-semnasnet_100',
                             'segformer_mit_b0',
+                            'unet_resnet34'
                         ],
                         default='smp_unet',
                         help='Wybierz model do trenowania')

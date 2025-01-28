@@ -4,6 +4,7 @@ import torch.optim as optim
 import lightning.pytorch as pl
 import segmentation_models_pytorch as smp
 from torchmetrics import Dice, JaccardIndex
+from segmentation.losses import CombinedLoss, DiceFocalLoss
 
 class CustomDeepLabV3Model(pl.LightningModule):
     def __init__(
@@ -24,7 +25,7 @@ class CustomDeepLabV3Model(pl.LightningModule):
             activation=None
         )
 
-        self.loss_fn = nn.CrossEntropyLoss()
+        self.loss_fn = CombinedLoss(weight_ce=None, weight_dice=1.0, classes=num_classes)
         self.dice_metric = Dice(num_classes=num_classes, average='macro')
         self.jaccard_metric = JaccardIndex(task='multiclass', num_classes=num_classes, average='macro')
 
